@@ -17,19 +17,20 @@ class Messages extends StatelessWidget {
       builder: (context,
           AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(
+          return Center(
             child: CircularProgressIndicator(),
           );
         }
-
         final chatDocs = snapshot.data!.docs;
 
         return ListView.builder(
           reverse: true,
           itemCount: chatDocs.length,
           itemBuilder: (context, index) {
-            return ChatBubble(chatDocs[index]['text'],
-            chatDocs[index]['userID'].toString() == user!.uid,);
+            return ChatBubbles(
+                chatDocs[index]['text'],
+                chatDocs[index]['userID'].toString() == user!.uid,
+            );
           },
         );
       },

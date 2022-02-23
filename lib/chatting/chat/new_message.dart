@@ -11,36 +11,31 @@ class NewMessage extends StatefulWidget {
 }
 
 class _NewMessageState extends State<NewMessage> {
-
-  var _userEnterMessage = '';
   final _controller = TextEditingController();
-
-
-  void _sendMessage() {
+  var _userEnterMessage = '';
+  void _sendMessage()async{
     FocusScope.of(context).unfocus();
     final user = FirebaseAuth.instance.currentUser;
     FirebaseFirestore.instance.collection('chat').add({
-      'text': _userEnterMessage,
-      'time': Timestamp.now(),
+      'text' : _userEnterMessage,
+      'time' : Timestamp.now(),
       'userID' : user!.uid,
     });
-    _controller. clear();
+    _controller.clear();
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: 5.0),
-      padding: EdgeInsets.all(25.0),
+      margin: EdgeInsets.only(bottom: 5.0),
+      padding: EdgeInsets.all(20),
       child: Row(
         children: [
           Expanded(
             child: TextField(
               maxLines: null,
               controller: _controller,
-              decoration: const InputDecoration(
-                labelText: 'message...',
-              ),
+              decoration: InputDecoration(labelText: 'message...'),
               onChanged: (value) {
                 setState(() {
                   _userEnterMessage = value;
@@ -50,7 +45,8 @@ class _NewMessageState extends State<NewMessage> {
           ),
           IconButton(
             onPressed: _userEnterMessage.trim().isEmpty ? null : _sendMessage,
-            icon: const Icon(Icons.send, color: Palette.facebookColor,),
+            icon: Icon(Icons.send),
+            color: Palette.facebookColor,
           ),
         ],
       ),
